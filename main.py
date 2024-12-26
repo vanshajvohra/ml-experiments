@@ -1,6 +1,7 @@
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_error
 from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
 import pandas as pd
 
 melb_data_path = 'melb_data.csv'
@@ -44,3 +45,9 @@ for mlf in candidates_max_leaf_nodes:
     newest_predictions = newest_model.predict(val_x)
     print(mean_absolute_error(val_y, newest_predictions))
 optimal_leaves = 500
+
+forest_model = RandomForestRegressor(random_state=1)
+forest_model.fit(train_x, train_y)
+forest_model_predictions = forest_model.predict(val_x)
+forest_model_mae = mean_absolute_error(val_y, forest_model_predictions)
+print(forest_model_mae) # significant lower mae even after optimizing max leaf nodes
